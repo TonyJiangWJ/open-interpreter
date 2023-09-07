@@ -8,6 +8,16 @@
     <br><a href="https://openinterpreter.com">Get early access to the desktop application.</a><br>
 </p>
 
+## windows虚拟环境安装记录
+
+- windows下使用conda虚拟环境安装open-interpreter，并本地部署Code-Llama的注意事项
+- 具体创建虚拟环境请搜索相关教程
+- 创建虚拟环境后需要提前使用pip安装 `pip install llama-cpp-python`，本地编译时可能报错，原因是未安装C++环境，需要安装微软的Visual Studio C++工具：https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/
+- 上述完成后安装open-interpreter，`pip install open-interpreter`
+- 安装完毕之后执行 `interpreter -l` 运行本地模型，根据提示选择模型版本和是否使用GPU等。首次运行指定模型需要下载，请确保网络环境配置正确。
+- 模型下载完毕后就可以愉快的使用了，更多使用说明见原始仓库：[open-interpreter](https://github.com/KillianLucas/open-interpreter)
+- 如果不需要使用本地模型，请忽略上述说明，按原仓库说明使用，需要申请OpenAi的API KEY
+
 <br>
 
 ![poster](https://github.com/KillianLucas/open-interpreter/assets/63927363/08f0d493-956b-4d49-982e-67d4b20c4b56)

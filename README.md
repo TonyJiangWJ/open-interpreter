@@ -16,13 +16,8 @@
 - 上述完成后安装open-interpreter，`pip install open-interpreter`
 - 安装完毕之后执行 `interpreter -l` 运行本地模型，根据提示选择模型版本和是否使用GPU等。首次运行指定模型需要下载，请确保网络环境配置正确。
   - 模型选择后会将模型下载到 `C:\Users\{用户名}\AppData\Local\Open Interpreter\Open Interpreter\models`
-  - 因为是C盘路径，一般总容量比较吃紧，如果需要修改模型地址，应该是需要手动修改源代码了，源代码文件 `interpreter/llama_2.py`。或者修改APPDATA环境变量(不过尝试了一下无效)
-    ```python
-    # Get user data directory
-    user_data_dir = appdirs.user_data_dir("Open Interpreter")
-    default_path = os.path.join(user_data_dir, "models")
-    ```
   - 一旦中途失败，将会重新下载模型而不是断点续传，如果选择较大模型，请确保网络通畅，或者直接使用别的下载器下载相应的模型，放到上述文件夹中，避免浪费时间。各个版本模型下载地址如下：
+  
     ```python
     models = {
         '7B': {
@@ -41,6 +36,20 @@
             'High': {'URL': 'https://huggingface.co/TheBloke/CodeLlama-34B-Instruct-GGUF/resolve/main/codellama-34b-instruct.Q8_0.gguf', 'Size': '35.79 GB', 'RAM': '38.29 GB'}
         }
     }
+    ```
+    
+  - 因为是C盘路径，一般总容量比较吃紧，如果需要修改模型地址，应该是需要手动修改源代码了，源代码文件 `interpreter/llama_2.py`
+    ```python
+    # Get user data directory
+    user_data_dir = appdirs.user_data_dir("Open Interpreter")
+    default_path = os.path.join(user_data_dir, "models")
+    ```
+  - 另一种暴力方式是，修改虚拟环境中appdirs.py的源代码：`$envPath\${envName}\Lib\site-packages\appdirs.py`
+    ```python
+    # 修改user_data_dir方法，1.4.4版本的在第45行
+    def user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
+        # 直接指定路径，指定后模型路径将变为，例如 D:\AppData\Open Interpreter\models 然后将其他方式下载的模型放到这里面即可
+        return r"{指定你自己想放的路径}\%s" % appname
     ```
 - 模型下载完毕后就可以愉快的使用了，更多使用说明见原始仓库：[open-interpreter](https://github.com/KillianLucas/open-interpreter)
 - 如果不需要使用本地模型，请忽略上述说明，按原仓库说明使用，需要申请OpenAi的API KEY
